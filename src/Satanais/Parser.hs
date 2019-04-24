@@ -39,7 +39,7 @@ operations =
 
 term :: Parser Expr
 term = lexeme $ choice
-  [ Lambda <$> (symbol "\\" *> identifier <* symbol "->") <*> expr
+  [ Lam <$> (symbol "\\" *> identifier <* symbol "->") <*> expr
   , Num <$> (try L.float <|> fromIntegral <$> (L.decimal :: Parser Int))
   , parens expr
   ]
