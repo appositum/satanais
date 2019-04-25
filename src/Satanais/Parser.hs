@@ -33,16 +33,23 @@ identifier = lexeme $
 
 operations :: [[Operator Parser Expr]]
 operations =
-  [ [op "*" Mul]
-  , [op "+" Add, op "-" Sub]
+  [ [op "*" EMul]
+  , [op "+" EAdd, op "-" ESub]
   ] where op n f = InfixL (f <$ symbol n)
 
 term :: Parser Expr
 term = lexeme $ choice
-  [ Lam <$> (symbol "\\" *> identifier <* symbol "->") <*> expr
-  , Num <$> (try L.float <|> fromIntegral <$> (L.decimal :: Parser Int))
+  [ ELam <$> (symbol "\\" *> identifier <* symbol "->") <*> expr
+  , ENum <$> L.scientific
+  , ERef <$> identifier
   , parens expr
   ]
 
 expr :: Parser Expr
 expr = makeExprParser term operations
+
+stmt :: Parser Stmt
+stmt = Def <$> (identifier <* symbol "=") <*> expr
+
+program :: Parser [Stmt]
+program = between sc eof $ stmt `sepEndBy` some eol
