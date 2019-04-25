@@ -22,6 +22,7 @@ library
   exposed-modules:
       Satanais
       Satanais.AST
+      Satanais.Eval
       Satanais.Parser
   other-modules:
       Paths_satanais
@@ -29,7 +30,9 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , containers
     , megaparsec
+    , mtl
     , parser-combinators
     , scientific
   default-language: Haskell2010
