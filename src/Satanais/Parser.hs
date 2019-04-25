@@ -33,7 +33,8 @@ identifier = lexeme $
 
 operations :: [[Operator Parser Expr]]
 operations =
-  [ [op "*" EMul]
+  [ [op "" EApp]
+  , [op "*" EMul]
   , [op "+" EAdd, op "-" ESub]
   ] where op n f = InfixL (f <$ symbol n)
 
