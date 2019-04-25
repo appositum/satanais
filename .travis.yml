@@ -1,0 +1,4 @@
+language: nix
+
+notifications:
+  email: false
