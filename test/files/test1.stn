@@ -1,0 +1,6 @@
+square = \x -> x * x
+add = \x -> \y -> x + y
+
+f = \x -> \y -> x + y * 2
+
+main = 0
