@@ -10,7 +10,7 @@ data Expr = ENum Number
           | EMul Expr Expr
           | ESub Expr Expr
           | ELam String Expr
-          | ECall Expr Expr
+          | EApp Expr Expr
           deriving (Eq, Show)
 
 data Stmt = Def String Expr
