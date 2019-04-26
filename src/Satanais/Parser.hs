@@ -52,5 +52,5 @@ expr = makeExprParser term operations
 stmt :: Parser Stmt
 stmt = Def <$> (identifier <* symbol "=") <*> expr
 
-program :: Parser [Stmt]
+program :: Parser Program
 program = between sc eof $ stmt `sepEndBy` some eol
