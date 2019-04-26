@@ -54,3 +54,6 @@ stmt = Def <$> (identifier <* symbol "=") <*> expr
 
 program :: Parser Program
 program = between sc eof $ stmt `sepEndBy` some eol
+
+parseSatanais :: String -> Either (ParseErrorBundle String Void) Program
+parseSatanais = parse program mempty
