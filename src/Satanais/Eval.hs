@@ -2,10 +2,13 @@
 
 module Satanais.Eval where
 
+import           Control.Monad
 import           Control.Monad.Except
 import           Control.Monad.State
 import           Data.Map (Map)
 import qualified Data.Map as M
+import           System.IO
+import           Text.Megaparsec
 
 import           Satanais.AST
 import           Satanais.Parser
@@ -49,8 +52,24 @@ define :: Stmt -> Runtime ()
 define (Def name value) =
   eval value >>= modify . M.insert name
 
-run :: Program -> Either String Value
-run stmts =
+runProgram :: Program -> Either String Value
+runProgram stmts =
   fmap fst . runExcept $
     (flip runStateT) M.empty $
       traverse define stmts *> eval (ERef "main")
+
+runExpr :: Expr -> Either String Value
+runExpr e = fmap fst . runExcept $
+  (flip runStateT) M.empty $ eval e
+
+repl :: IO ()
+repl = do
+  input <- putStr "Satanais> " *> hFlush stdout *> getLine
+  unless (input == ":quit" || input == ":q") $ do
+    if null input
+      then repl
+      else do
+        case parseExpr input of
+          Left e -> putStr $ errorBundlePretty e
+          Right a -> print $ runExpr a
+        repl
