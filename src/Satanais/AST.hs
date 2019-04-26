@@ -15,3 +15,5 @@ data Expr = ENum Number
 
 data Stmt = Def String Expr
   deriving (Eq, Show)
+
+type Program = [Stmt]
