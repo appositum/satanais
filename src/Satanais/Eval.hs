@@ -49,7 +49,7 @@ define :: Stmt -> Runtime ()
 define (Def name value) =
   eval value >>= modify . M.insert name
 
-run :: [Stmt] -> Either String Value
+run :: Program -> Either String Value
 run stmts =
   fmap fst . runExcept $
     (flip runStateT) M.empty $
