@@ -71,5 +71,17 @@ repl = do
       else do
         case parseExpr input of
           Left e -> putStr $ errorBundlePretty e
-          Right a -> print $ runExpr a
+          Right e ->
+            case runExpr e of
+              Left err -> putStrLn err
+              Right res -> print res
         repl
+
+compile :: String -> IO ()
+compile input = do
+  case parseProgram input of
+    Left err -> putStr $ errorBundlePretty err
+    Right e ->
+      case runProgram e of
+        Left err -> putStrLn err
+        Right res -> print res
