@@ -56,7 +56,7 @@ program :: Parser Program
 program = between sc eof $ stmt `sepEndBy` some eol
 
 parseProgram :: String -> Either (ParseErrorBundle String Void) Program
-parseProgram = parse program mempty
+parseProgram = parse (program <* eof) mempty
 
 parseExpr :: String -> Either (ParseErrorBundle String Void) Expr
-parseExpr = parse expr mempty
+parseExpr = parse (expr <* eof) mempty
