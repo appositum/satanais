@@ -14,6 +14,7 @@ import           Satanais.AST
 import           Satanais.Parser
 
 data Value = VNum Number
+           | VBool Bool
            | VLam String Expr
            deriving (Eq, Show)
 
@@ -32,15 +33,17 @@ numOp f e1 e2 = fmap VNum . join $ applyNum2 f <$> eval e1 <*> eval e2
 
 eval :: Expr -> Runtime Value
 eval (ENum n) = pure (VNum n)
+eval (EBool b) = pure (VBool b)
 eval (ERef x) =
   M.lookup x <$> get >>= \case
     Just x' -> pure x'
     Nothing -> throwError $ "Couldn't find variable " ++ x
-eval (EAdd e1 e2) = numOp (+) e1 e2
-eval (EMul e1 e2) = numOp (*) e1 e2
-eval (ESub e1 e2) = numOp (-) e1 e2
 eval (ELam arg body) = pure (VLam arg body)
-eval (EApp f a) = do
+eval (EBin BAdd e1 e2) = numOp (+) e1 e2
+eval (EBin BMul e1 e2) = numOp (*) e1 e2
+eval (EBin BSub e1 e2) = numOp (-) e1 e2
+eval (EBin BEql e1 e2) = fmap VBool $ (==) <$> eval e1 <*> eval e2
+eval (EBin BApp f a) = do
   f' <- eval f
   case f' of
     VLam val e -> do

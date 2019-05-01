@@ -33,15 +33,17 @@ identifier = lexeme $
 
 operations :: [[Operator Parser Expr]]
 operations =
-  [ [op "" EApp]
-  , [op "*" EMul]
-  , [op "+" EAdd, op "-" ESub]
+  [ [op "" (EBin BApp)]
+  , [op "*" (EBin BMul)]
+  , [op "+" (EBin BAdd), op "-" (EBin BSub)]
+  , [op "==" (EBin BEql)]
   ] where op n f = InfixL (f <$ symbol n)
 
 term :: Parser Expr
 term = lexeme $ choice
   [ ELam <$> (symbol "\\" *> identifier <* symbol "->") <*> expr
   , ENum <$> L.scientific
+  , EBool <$> read <$> (string "True" <|> string "False")
   , ERef <$> identifier
   , parens expr
   ]

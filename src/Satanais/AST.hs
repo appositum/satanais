@@ -4,13 +4,18 @@ import Data.Scientific (Scientific)
 
 type Number = Scientific
 
+data BinOp = BAdd
+           | BMul
+           | BSub
+           | BApp
+           | BEql
+           deriving (Eq, Show)
+
 data Expr = ENum Number
+          | EBool Bool
           | ERef String
-          | EAdd Expr Expr
-          | EMul Expr Expr
-          | ESub Expr Expr
+          | EBin BinOp Expr Expr
           | ELam String Expr
-          | EApp Expr Expr
           deriving (Eq, Show)
 
 data Stmt = Def String Expr
