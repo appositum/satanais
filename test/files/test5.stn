@@ -1,0 +1,9 @@
+x = 3 -- tres
+y = 4 {- quatro -}
+{- funçao kk
+jooj
+-}
+
+f = \x -> \y -> x + y
+
+main = 0
