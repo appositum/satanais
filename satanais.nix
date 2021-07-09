@@ -1,4 +1,4 @@
-{ mkDerivation, base, megaparsec, parser-combinators, scientific
+{ lib, mkDerivation, base, megaparsec, parser-combinators, scientific
 , stdenv
 }:
 mkDerivation {
@@ -15,5 +15,5 @@ mkDerivation {
   ];
   testHaskellDepends = [ base ];
   homepage = "https://github.com/appositum/satanais#readme";
-  license = stdenv.lib.licenses.asl20;
+  license = lib.licenses.asl20;
 }
