@@ -1,8 +1,5 @@
 language: haskell
 dist: jammy
 
-install: cabal configure && cabal build
-script: cabal install
-
 notifications:
   email: false
