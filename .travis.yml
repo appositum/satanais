@@ -1,4 +1,10 @@
 language: haskell
+cabal: "3.6.2.0"
+ghc:
+  - "9.4.7"
+
+install: cabal configure && cabal build
+script: cabal install
 
 notifications:
   email: false
