@@ -1,6 +1,4 @@
-language: nix
-
-script: nix-build
+language: haskell
 
 notifications:
   email: false

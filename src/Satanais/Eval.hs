@@ -63,7 +63,7 @@ runProgram stmts =
 
 runExpr :: Expr -> Either String Value
 runExpr e = fmap fst . runExcept $
-  (flip runStateT) M.empty $ eval e
+  runStateT (eval e) M.empty
 
 repl :: IO ()
 repl = do
